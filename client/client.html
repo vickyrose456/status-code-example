@@ -48,6 +48,7 @@ const content = document.querySelector('#content');
                     content.innerHTML = '<b>Error code not implemented</b>';
                     break;
             }
+        content.innerHTML += `<p>${obj.message}</p>`;
     };
     
 
