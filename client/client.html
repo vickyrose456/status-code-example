@@ -26,26 +26,57 @@
     }
   </style>
   
-  <script>
-    const handleResponse = (response) => {
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script type="text/babel">
+    const handleResponse = (xhr) => {
+const content = document.querySelector('#content');
+        const obj = JSON.parse(xhr.response);
+        const obj = JSON.parse(xhr.response);
+        
+        switch(xhr.status)
+            {
+                case 200:
+                    content.innerHTML = '<b>Success!</b>';
+                    break;
+                case 400:
+                    content.innerHTML = '<b>Bad Request :( </b>';
+                    break;
+                case 404:
+                    content.innerHTML = '<b>Resource Not Found</b>';
+                    break;
+                default:
+                    content.innerHTML = '<b>Error code not implemented</b>';
+                    break;
+            }
     };
     
-    const sendFetch = (url) => {
 
-      //handleResponse(response);
+    const sendAjax = (url) => {
+      const xhr = new XMLHttpRequest();
+        
+        xhr.setRequestHeader("Accept", 'application/json');
+        
+        xhr.onload = () => handleResponse(xhr);
+        
+        xhr.send();
     };
 
     const init = () => {
       const successButton = document.querySelector("#success");
       const badRequestButton = document.querySelector("#badRequest");
       const notFoundButton = document.querySelector("#notFound");
-
-      
+        
+        successButton.addEventListener('click', () => sendAjax('/success'));
+        
+        badRequestButton.addEventListener('click', () => sendAjax('/badRequest'));
+        
+        notFoundButton.addEventListener('click', () => sendAjax('/notFound'));
     };
 
     window.onload = init;
 
+      
+//Client does Not Need Status code when successful ~
   </script>
 </head>
 <body>
